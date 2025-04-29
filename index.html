@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html lang="pl">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Wyjaśnij fragment Biblii</title>
-  <link href="style.css" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <link href="style.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
 <body>
   <div class="container">
     <h1>Wyjaśnij fragment Biblii</h1>
-    <p class="intro">Wybierz fragment Biblii, aby otrzymać wyjaśnienie wraz z informacją o ważnych słowach i kontekście kulturowym.</p>
+    <p class="intro">
+      Wybierz fragment Biblii, aby otrzymać wyjaśnienie wraz z informacją o
+      ważnych słowach i kontekście kulturowym.
+    </p>
     <form id="bibleForm">
       <label for="book">Księga:</label>
       <select id="book" name="book" required>
@@ -27,13 +31,13 @@
       </select>
 
       <label for="chapter">Rozdział:</label>
-      <input type="number" id="chapter" name="chapter" min="1" required>
+      <input type="number" id="chapter" name="chapter" min="1" required/>
 
       <label for="verseFrom">Werset od:</label>
-      <input type="number" id="verseFrom" name="verseFrom" min="1" required>
+      <input type="number" id="verseFrom" name="verseFrom" min="1" required/>
 
       <label for="verseTo">Werset do (opcjonalnie):</label>
-      <input type="number" id="verseTo" name="verseTo" min="1">
+      <input type="number" id="verseTo" name="verseTo" min="1"/>
 
       <button type="submit">Wyjaśnij</button>
     </form>
@@ -42,9 +46,9 @@
   </div>
 
   <script>
-    document.getElementById('bibleForm').addEventListener('submit', async function(event) {
+    document.getElementById('bibleForm').addEventListener('submit', async function (event) {
       event.preventDefault();
-      
+
       const book = document.getElementById('book').value;
       const chapter = document.getElementById('chapter').value;
       const verseFrom = document.getElementById('verseFrom').value;
@@ -52,10 +56,10 @@
 
       let fragment = `${book} ${chapter}:${verseFrom}`;
       if (verseTo) {
-          fragment += `-${verseTo}`;
+        fragment += `-${verseTo}`;
       }
 
-      const prompt = `Wyjaśnij fragment Biblii ${fragment}. Zwróć uwagę na ważne oryginalne słowa i ich znaczenie w kulturze oryginalnej. Odpowiedz w jednym komunikacie bez możliwości kontynuacji.`;
+      const prompt = `Wyjaśnij fragment Biblii ${fragment}.`;
 
       const responseDiv = document.getElementById('response');
       responseDiv.innerHTML = 'Ładowanie...';
@@ -64,12 +68,12 @@
         const response = await fetch('/ask', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ prompt })
+          body: JSON.stringify({ prompt }),
         });
         const data = await response.json();
-        responseDiv.innerHTML = `<p><strong>Odpowiedź:</strong><br>${data.answer}</p>`;
+        responseDiv.innerHTML = `<p><strong>Odpowiedź:</strong></p><div>${marked.parse(data.answer)}</div>`;
       } catch (error) {
         responseDiv.innerHTML = 'Wystąpił błąd podczas pobierania odpowiedzi.';
       }
