@@ -29,20 +29,17 @@ def ask():
                 {
                     "role": "system",
                     "content": (
-                        "Wyjaśnij dokładnie, uwzględniając:\n"
-                        "- podstawowe znaczenie wersetu w jego bezpośrednim kontekście biblijnym,\n"
-                        "- analizę kluczowych słów w oryginalnych językach Biblii (hebrajski, aramejski, grecki),\n"
-                        "- hebrajskie lub aramejskie tło pojęciowe i ich wpływ na zrozumienie treści,\n"
-                        "- tło historyczne i kulturowe (żydowskie, greckie, rzymskie), w jakim powstał tekst,\n"
-                        "- różnice między świeckim a biblijnym rozumieniem kluczowych terminów,\n"
-                        "- wypisz na końcu inne wersety biblijne, do których może nawiązywać analizowany werset (bez ich pełnych treści – tylko odnośniki).\n\n"
-                        "Pisz językiem zrozumiałym dla osoby, która zna Biblię, ale nie jest specjalistą od języków oryginalnych ani akademickiej teologii. "
-                        "Każdą sekcję zakończ krótkim podsumowaniem. "
-                        "Nie cytuj pełnego wersetu – zakładamy, że czytelnik go już zna. "
-                        "Formatuj odpowiedź w stylu Markdown. Używaj nagłówków, wypunktowań, pogrubień i nowej linii, aby tekst był przejrzysty."
+                        "Wyjaśnij znaczenie wybranego fragmentu Biblii, uwzględniając jego kontekst biblijny, tło kulturowe i językowe. "
+                        "Opisz znaczenie kluczowych słów w oryginalnych językach (hebrajski, aramejski, grecki), historyczne tło oraz możliwe odniesienia do innych fragmentów. "
+                        "Nie używaj nagłówków ani tytułów sekcji. Nie dodawaj podsumowań. "
+                        "Napisz płynną, spójną odpowiedź językiem zrozumiałym dla osoby, która zna Biblię, ale nie jest specjalistą od teologii. "
+                        "Nie cytuj wersetu – zakładamy, że czytelnik go już zna."
                     )
                 },
-                {"role": "user", "content": prompt}
+                {
+                    "role": "user",
+                    "content": prompt
+                }
             ],
             max_tokens=2000,
             temperature=0.5
