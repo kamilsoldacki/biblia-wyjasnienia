@@ -38,13 +38,11 @@ def ask():
                         "- wypisz na końcu inne wersety biblijne, do których może nawiązywać analizowany werset (bez ich pełnych treści – tylko odnośniki).\n\n"
                         "Pisz językiem zrozumiałym dla osoby, która zna Biblię, ale nie jest specjalistą od języków oryginalnych ani akademickiej teologii. "
                         "Każdą sekcję zakończ krótkim podsumowaniem. "
-                        "Nie cytuj pełnego wersetu – zakładamy, że czytelnik go już zna."
+                        "Nie cytuj pełnego wersetu – zakładamy, że czytelnik go już zna. "
+                        "Formatuj odpowiedź w stylu Markdown. Używaj nagłówków, wypunktowań, pogrubień i nowej linii, aby tekst był przejrzysty."
                     )
                 },
-                {
-                    "role": "user",
-                    "content": prompt
-                }
+                {"role": "user", "content": prompt}
             ],
             max_tokens=2000,
             temperature=0.5
