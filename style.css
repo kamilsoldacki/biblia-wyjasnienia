@@ -1,6 +1,6 @@
 body {
   font-family: 'Inter', sans-serif;
-  font-size: 11px;
+  font-size: 13px;
   background-color: #f9f9f9;
   margin: 0;
   padding: 20px;
@@ -58,6 +58,35 @@ button:hover {
 
 #response {
   margin-top: 20px;
-  font-size: 11px;
+  font-size: 13px;
   text-align: justify;
+}
+
+#response h1, #response h2, #response h3 {
+  font-size: 20px;
+  font-weight: 600;
+  margin-top: 24px;
+  margin-bottom: 8px;
+  color: #333;
+}
+
+#response p {
+  margin-bottom: 12px;
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+#response ul {
+  padding-left: 20px;
+  margin-bottom: 16px;
+}
+
+#response li {
+  margin-bottom: 6px;
+  font-size: 15px;
+}
+
+#response strong {
+  font-weight: bold;
+  color: #222;
 }
