@@ -4,23 +4,27 @@ import os
 
 app = Flask(__name__)
 
+# Pobierz klucz API z Render.com → Environment Variable
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 
+# Serwuj index.html przy wejściu na stronę
 @app.route('/')
 def index():
     return send_from_directory('', 'index.html')
 
+# Serwuj plik CSS
 @app.route('/style.css')
 def style():
     return send_from_directory('', 'style.css')
 
+# Endpoint API: odbiera zapytanie, wysyła do OpenAI, zwraca odpowiedź
 @app.route('/ask', methods=['POST'])
 def ask():
-    data = request.json
+    data = request.get_json()
     prompt = data.get('prompt')
 
     if not prompt:
-        return jsonify({'error': 'Brak promptu'}), 400
+        return jsonify({'answer': 'Nie otrzymano promptu.'}), 400
 
     try:
         response = openai.ChatCompletion.create(
@@ -35,7 +39,8 @@ def ask():
         answer = response['choices'][0]['message']['content']
         return jsonify({'answer': answer})
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        return jsonify({'answer': f'Wystąpił błąd: {str(e)}'}), 500
 
+# Uruchom aplikację (Render to obsłuży)
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=10000)
