@@ -1,6 +1,6 @@
 body {
   font-family: 'Inter', sans-serif;
-  font-size: 13px;
+  font-size: 15px;
   background-color: #f9f9f9;
   margin: 0;
   padding: 20px;
@@ -8,48 +8,52 @@ body {
 
 .container {
   max-width: 600px;
-  margin: 0 auto;
-  background: white;
+  margin: auto;
+  background-color: #fff;
   padding: 30px;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
 }
 
 h1 {
-  font-size: 28px;
-  margin-bottom: 10px;
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .intro {
-  font-size: 16px;
+  font-size: 15px;
   margin-bottom: 20px;
+  line-height: 1.6;
 }
 
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-label {
+form label {
+  display: block;
   margin-top: 10px;
-  font-weight: 600;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
-input, select, button {
-  margin-top: 5px;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
+form select,
+form input {
+  width: 100%;
+  padding: 8px;
+  font-size: 15px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
 }
 
 button {
   background-color: #4CAF50;
   color: white;
+  padding: 12px 20px;
   border: none;
-  margin-top: 20px;
+  border-radius: 4px;
+  font-size: 15px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  margin-top: 10px;
+  font-weight: bold;
 }
 
 button:hover {
@@ -57,23 +61,18 @@ button:hover {
 }
 
 #response {
-  margin-top: 20px;
-  font-size: 13px;
-  text-align: justify;
-}
-
-#response h1, #response h2, #response h3 {
-  font-size: 20px;
-  font-weight: 600;
-  margin-top: 24px;
-  margin-bottom: 8px;
-  color: #333;
+  margin-top: 30px;
+  line-height: 1.6;
+  font-size: 15px;
 }
 
 #response p {
   margin-bottom: 12px;
-  line-height: 1.6;
-  font-size: 15px;
+}
+
+#response strong {
+  font-weight: bold;
+  color: #222;
 }
 
 #response ul {
@@ -83,10 +82,4 @@ button:hover {
 
 #response li {
   margin-bottom: 6px;
-  font-size: 15px;
-}
-
-#response strong {
-  font-weight: bold;
-  color: #222;
 }
