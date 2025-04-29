@@ -1,10 +1,18 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 import openai
 import os
 
 app = Flask(__name__)
 
 openai.api_key = os.environ.get("OPENAI_API_KEY")
+
+@app.route('/')
+def index():
+    return send_from_directory('', 'index.html')
+
+@app.route('/style.css')
+def style():
+    return send_from_directory('', 'style.css')
 
 @app.route('/ask', methods=['POST'])
 def ask():
