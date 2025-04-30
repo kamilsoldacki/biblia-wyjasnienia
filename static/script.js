@@ -1,4 +1,4 @@
-fetch('bibleStructure_full.json')
+fetch('/static/bibleStructure_full.json')
   .then(response => response.json())
   .then(bibleStructure => {
     const bookSelect = document.getElementById('book');
