@@ -1,88 +1,65 @@
+
 body {
-  font-family: 'Inter', sans-serif;
-  font-size: 15px;
-  background-color: #f9f9f9;
+  font-family: 'Helvetica Neue', sans-serif;
+  font-size: 90%;
+  background-color: #f7f7f7;
   margin: 0;
-  padding: 30px 20px;
+  padding: 2rem;
+  color: #222;
 }
 
 .container {
-  max-width: 650px;
-  margin: auto;
-  background-color: #fff;
-  padding: 40px 30px;
-  border-radius: 12px;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+  max-width: 700px;
+  margin: 0 auto;
+  padding: 1.5rem 2rem;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
 }
 
 h1 {
-  font-size: 18px;
+  font-size: 1.6rem;
+  margin-bottom: 1rem;
+}
+
+label {
   font-weight: 600;
-  margin-top: 0;
-  margin-bottom: 20px;
-}
-
-.intro {
-  font-size: 15px;
-  margin-bottom: 30px;
-  line-height: 1.6;
-}
-
-form label {
   display: block;
-  margin-bottom: 6px;
-  font-weight: 600;
+  margin-top: 1.2rem;
+  margin-bottom: 0.3rem;
 }
 
-form select,
-form input {
+select, input {
   width: 100%;
-  padding: 10px;
-  font-size: 15px;
-  margin-bottom: 20px;
+  padding: 0.4rem 0.6rem;
+  font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 6px;
+  border-radius: 5px;
+  background-color: #fff;
   box-sizing: border-box;
 }
 
 button {
   width: 100%;
-  background-color: #e6e6e6;
+  background-color: #e0e0e0;
   color: #111;
-  padding: 12px;
-  border: none;
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  margin-top: 1.5rem;
   border-radius: 6px;
-  font-size: 15px;
   cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.2s ease;
+  transition: background 0.3s;
+  box-shadow: none;
 }
 
 button:hover {
-  background-color: #d5d5d5;
+  background-color: #d0d0d0;
 }
 
 #response {
-  margin-top: 40px;
-  line-height: 1.7;
-  font-size: 15px;
+  margin-top: 2rem;
+  line-height: 1.6;
   text-align: justify;
-}
-
-#response p {
-  margin-bottom: 16px;
-}
-
-#response strong {
-  font-weight: bold;
-  color: #222;
-}
-
-#response ul {
-  padding-left: 20px;
-  margin-bottom: 16px;
-}
-
-#response li {
-  margin-bottom: 6px;
+  max-width: 650px;
 }
