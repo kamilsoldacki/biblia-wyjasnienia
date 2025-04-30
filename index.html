@@ -137,7 +137,7 @@
         if (stepIndex < steps.length) {
           responseDiv.innerHTML = `<p>${steps[stepIndex]}</p>`;
         }
-      }, 1200);
+      }, 2500);
 
       try {
         const response = await fetch('/ask', {
@@ -153,7 +153,7 @@
         responseDiv.innerHTML = `<p><strong>Odpowiedź:</strong></p><div>${marked.parse(data.answer)}</div>`;
       } catch (error) {
         clearInterval(loadingInterval);
-        responseDiv.innerHTML = 'Wystąpił błąd podczas pobierania odpowiedzi.';
+        responseDiv.innerHTML = 'Wystąpił błąd. Ponów próbę.';
       }
     });
   </script>
