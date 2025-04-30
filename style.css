@@ -1,65 +1,70 @@
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
 body {
-  font-family: 'Helvetica Neue', sans-serif;
-  font-size: 90%;
-  background-color: #f7f7f7;
+  font-family: 'Inter', sans-serif;
+  font-size: 85%;
+  background-color: #f0f2f5;
   margin: 0;
   padding: 2rem;
   color: #222;
 }
 
 .container {
-  max-width: 700px;
+  max-width: 720px;
   margin: 0 auto;
-  padding: 1.5rem 2rem;
-  background: white;
-  border-radius: 10px;
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.05);
+  padding: 2rem 2.5rem;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
 }
 
 h1 {
   font-size: 1.6rem;
   margin-bottom: 1rem;
+  font-weight: 600;
 }
 
 label {
-  font-weight: 600;
+  font-weight: 500;
   display: block;
-  margin-top: 1.2rem;
-  margin-bottom: 0.3rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #333;
 }
 
 select, input {
   width: 100%;
-  padding: 0.4rem 0.6rem;
+  padding: 0.5rem 0.75rem;
   font-size: 1rem;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 6px;
   background-color: #fff;
   box-sizing: border-box;
 }
 
 button {
   width: 100%;
-  background-color: #e0e0e0;
-  color: #111;
-  padding: 0.6rem 1rem;
+  background-color: #4a90e2;
+  color: white;
+  padding: 0.7rem 1rem;
   font-size: 1rem;
-  border: 1px solid #ccc;
-  margin-top: 1.5rem;
+  font-weight: 500;
+  border: none;
+  margin-top: 2rem;
   border-radius: 6px;
   cursor: pointer;
-  transition: background 0.3s;
-  box-shadow: none;
+  transition: background 0.25s ease;
 }
 
 button:hover {
-  background-color: #d0d0d0;
+  background-color: #3a78c2;
 }
 
 #response {
   margin-top: 2rem;
-  line-height: 1.6;
+  line-height: 1.7;
   text-align: justify;
-  max-width: 650px;
+  max-width: 680px;
+  color: #222;
 }
