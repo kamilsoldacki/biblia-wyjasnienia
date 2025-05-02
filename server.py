@@ -1,10 +1,37 @@
+
 from flask import Flask, request, jsonify, send_from_directory
 import openai
 import os
+import requests
+import re
 
 app = Flask(__name__)
 
 openai.api_key = os.environ.get("OPENAI_API_KEY")
+BIBLE_API_KEY = os.environ.get("BIBLE_API_KEY")
+
+def get_verse_text(reference):
+    bible_id = "1c9761e0230da6e0-01"
+    headers = {
+        "api-key": BIBLE_API_KEY
+    }
+
+    search_url = f"https://api.scripture.api.bible/v1/bibles/{bible_id}/search?query={reference}&limit=1"
+    search_response = requests.get(search_url, headers=headers)
+    search_data = search_response.json()
+
+    try:
+        verse_id = search_data["data"]["verses"][0]["id"]
+    except (KeyError, IndexError):
+        return None
+
+    verse_url = f"https://api.scripture.api.bible/v1/bibles/{bible_id}/verses/{verse_id}"
+    verse_response = requests.get(verse_url, headers=headers)
+    verse_data = verse_response.json()
+
+    raw_html = verse_data["data"]["content"]
+    clean_text = re.sub('<.*?>', '', raw_html).strip()
+    return clean_text
 
 @app.route('/')
 def index():
@@ -22,6 +49,12 @@ def ask():
     if not prompt:
         return jsonify({'answer': 'Nie otrzymano promptu.'}), 400
 
+    verse_text = get_verse_text(prompt)
+    if not verse_text:
+        return jsonify({'answer': 'Nie udało się znaleźć wersetu.'}), 404
+
+    full_prompt = f"{prompt}: {verse_text}"
+
     try:
         response = openai.ChatCompletion.create(
             model="gpt-4-turbo",
@@ -34,14 +67,14 @@ def ask():
                 },
                 {
                     "role": "user",
-                    "content": prompt
+                    "content": full_prompt
                 }
             ],
             max_tokens=2000,
             temperature=0.5
         )
         answer = response['choices'][0]['message']['content']
-        return jsonify({'answer': answer})
+        return jsonify({'answer': answer, 'verse': verse_text})
     except Exception as e:
         return jsonify({'answer': f'Wystąpił błąd: {str(e)}'}), 500
 
