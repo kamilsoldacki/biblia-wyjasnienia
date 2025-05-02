@@ -9,13 +9,24 @@ app = Flask(__name__)
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 BIBLE_API_KEY = os.environ.get("BIBLE_API_KEY")
 
+book_map = {'Rodzaju': 'Genesis', 'Wyjścia': 'Exodus', 'Kapłańska': 'Leviticus', 'Liczb': 'Numbers', 'Powtórzonego': 'Deuteronomy', 'Jozuego': 'Joshua', 'Sędziów': 'Judges', 'Ruty': 'Ruth', '1 Samuela': '1 Samuel', '2 Samuela': '2 Samuel', '1 Królewska': '1 Kings', '2 Królewska': '2 Kings', '1 Kronik': '1 Chronicles', '2 Kronik': '2 Chronicles', 'Ezdrasza': 'Ezra', 'Nehemiasza': 'Nehemiah', 'Ester': 'Esther', 'Hioba': 'Job', 'Psalmów': 'Psalms', 'Przysłów': 'Proverbs', 'Kaznodziei': 'Ecclesiastes', 'Pieśń': 'Song of Songs', 'Izajasza': 'Isaiah', 'Jeremiasza': 'Jeremiah', 'Lamentacje': 'Lamentations', 'Ezechiela': 'Ezekiel', 'Daniela': 'Daniel', 'Ozeasza': 'Hosea', 'Joela': 'Joel', 'Amosa': 'Amos', 'Abdiasza': 'Obadiah', 'Jonasza': 'Jonah', 'Micheasza': 'Micah', 'Nahuma': 'Nahum', 'Habakuka': 'Habakkuk', 'Sofoniasza': 'Zephaniah', 'Aggeusza': 'Haggai', 'Zachariasza': 'Zechariah', 'Malachiasza': 'Malachi', 'Mateusza': 'Matthew', 'Marka': 'Mark', 'Łukasza': 'Luke', 'Jana': 'John', 'Dzieje': 'Acts', 'Rzymian': 'Romans', '1 Koryntian': '1 Corinthians', '2 Koryntian': '2 Corinthians', 'Galacjan': 'Galatians', 'Efezjan': 'Ephesians', 'Filipian': 'Philippians', 'Kolosan': 'Colossians', '1 Tesaloniczan': '1 Thessalonians', '2 Tesaloniczan': '2 Thessalonians', '1 Tymoteusza': '1 Timothy', '2 Tymoteusza': '2 Timothy', 'Tytusa': 'Titus', 'Filemona': 'Philemon', 'Hebrajczyków': 'Hebrews', 'Jakuba': 'James', '1 Piotra': '1 Peter', '2 Piotra': '2 Peter', '1 Jana': '1 John', '2 Jana': '2 John', '3 Jana': '3 John', 'Judy': 'Jude', 'Objawienie': 'Revelation'}
+
+def convert_book_name(reference):
+    for polish, english in book_map.items():
+        if reference.startswith(polish):
+            rest = reference[len(polish):].strip()
+            return f"{english} {rest}"
+    return reference
+
 def get_verse_text(reference):
     bible_id = "1c9761e0230da6e0-01"
     headers = {
         "api-key": BIBLE_API_KEY
     }
 
-    search_url = f"https://api.scripture.api.bible/v1/bibles/{bible_id}/search?query={reference}&limit=1"
+    eng_reference = convert_book_name(reference)
+
+    search_url = f"https://api.scripture.api.bible/v1/bibles/{bible_id}/search?query={eng_reference}&limit=1"
     search_response = requests.get(search_url, headers=headers)
     search_data = search_response.json()
 
@@ -52,7 +63,7 @@ def ask():
     if not verse_text:
         return jsonify({'answer': 'Nie udało się znaleźć wersetu.'}), 404
 
-    full_prompt = f"{prompt}: {verse_text}"
+    full_prompt = f"Wyjaśnij fragment Biblii {prompt}: {verse_text}"
 
     try:
         response = openai.ChatCompletion.create(
@@ -68,9 +79,7 @@ def ask():
                     "role": "user",
                     "content": full_prompt
                 }
-            ],
-            max_tokens=2000,
-            temperature=0.5
+            ]
         )
         answer = response['choices'][0]['message']['content']
         return jsonify({'answer': answer, 'verse': verse_text})
