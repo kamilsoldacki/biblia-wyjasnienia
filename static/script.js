@@ -1,45 +1,55 @@
+fetch('/static/bibleStructure_full.json')
+  .then(response => response.json())
+  .then(bibleStructure => {
+    const bookSelect = document.getElementById('book');
+    const chapterInput = document.getElementById('chapter');
+    const verseFromInput = document.getElementById('verseFrom');
+    const verseToInput = document.getElementById('verseTo');
 
-document.getElementById('bibleForm').addEventListener('submit', async function (e) {
-  e.preventDefault();
+    // 1. Aktualizuj listę ksiąg tylko jeśli chcesz generować ją dynamicznie
+    // (Jeśli masz <optgroup> w HTML, to pomiń ten fragment):
+    // Object.keys(bibleStructure).forEach(book => {
+    //   const option = document.createElement('option');
+    //   option.value = book;
+    //   option.textContent = book;
+    //   bookSelect.appendChild(option);
+    // });
 
-  const book = document.getElementById('book').value;
-  const chapter = document.getElementById('chapter').value;
-  const verseFrom = document.getElementById('verseFrom').value;
-  const verseTo = document.getElementById('verseTo').value;
+    // 2. Po zmianie księgi ustaw max rozdział
+    bookSelect.addEventListener('change', () => {
+      const selectedBook = bookSelect.value;
+      const bookData = bibleStructure[selectedBook];
 
-  if (!book || !chapter || !verseFrom) {
-    alert('Uzupełnij księgę, rozdział i początkowy werset.');
-    return;
-  }
-
-  let reference = `${book} ${chapter}:${verseFrom}`;
-  if (verseTo) {
-    reference += `-${verseTo}`;
-  }
-
-  const responseDiv = document.getElementById('response');
-  responseDiv.innerHTML = '⏳ Trwa pobieranie wersetu i generowanie wyjaśnienia...';
-
-  try {
-    const res = await fetch('/ask', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ prompt: reference })
+      if (bookData) {
+        const maxChapter = bookData.chapters;
+        chapterInput.value = 1;
+        chapterInput.min = 1;
+        chapterInput.max = maxChapter;
+        updateVerseInputs(bookData, 1);
+      }
     });
 
-    const data = await res.json();
+    // 3. Po zmianie rozdziału ustaw max werset
+    chapterInput.addEventListener('change', () => {
+      const selectedBook = bookSelect.value;
+      const selectedChapter = parseInt(chapterInput.value);
+      const bookData = bibleStructure[selectedBook];
 
-    if (res.ok) {
-      responseDiv.innerHTML = `
-        <h3>Werset:</h3>
-        <p>${data.verse}</p>
-        <h3>Wyjaśnienie:</h3>
-        <p>${data.answer}</p>
-      `;
-    } else {
-      responseDiv.innerHTML = `<p><strong>Błąd:</strong> ${data.answer}</p>`;
+      if (bookData && bookData.verses[selectedChapter]) {
+        updateVerseInputs(bookData, selectedChapter);
+      }
+    });
+
+    function updateVerseInputs(bookData, chapter) {
+      const maxVerse = bookData.verses[chapter];
+      verseFromInput.value = 1;
+      verseFromInput.min = 1;
+      verseFromInput.max = maxVerse;
+      verseToInput.value = '';
+      verseToInput.min = 1;
+      verseToInput.max = maxVerse;
     }
-  } catch (err) {
-    responseDiv.innerHTML = '<p><strong>Błąd połączenia z serwerem.</strong></p>';
-  }
-});
+  })
+  .catch(error => {
+    console.error("Błąd wczytywania struktury Biblii:", error);
+  });

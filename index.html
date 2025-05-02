@@ -150,13 +150,7 @@
 
         const data = await response.json();
         clearInterval(loadingInterval);
-        responseDiv.innerHTML = `
-  <p><strong>Werset:</strong></p>
-  <p>${data.verse}</p>
-  <p><strong>Wyjaśnienie:</strong></p>
-  <div>${marked.parse(data.answer)}</div>
-`;
-
+        responseDiv.innerHTML = `<p><strong>Odpowiedź:</strong></p><div>${marked.parse(data.answer)}</div>`;
       } catch (error) {
         clearInterval(loadingInterval);
         responseDiv.innerHTML = 'Wystąpił błąd. Ponów próbę.';
