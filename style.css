@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 body {
@@ -34,8 +35,8 @@ label {
 
 select, input {
   width: 100%;
-  padding: 0.4rem 0.6rem;
-  font-size: 0.85rem;
+  padding: 0.5rem 0.75rem;
+  font-size: 1rem;
   border: 1px solid #ccc;
   border-radius: 6px;
   background-color: #fff;
@@ -44,21 +45,20 @@ select, input {
 
 button {
   width: 100%;
-  background-color: #e0e0e0;
-  color: #222;
-  padding: 0.6rem 1rem;
-  font-size: 0.85rem;
+  background-color: #4a90e2;
+  color: white;
+  padding: 0.7rem 1rem;
+  font-size: 1rem;
   font-weight: 500;
-  border: 1px solid #ccc;
+  border: none;
   margin-top: 2rem;
   border-radius: 6px;
   cursor: pointer;
   transition: background 0.25s ease;
-  box-shadow: none;
 }
 
 button:hover {
-  background-color: #d5d5d5;
+  background-color: #3a78c2;
 }
 
 #response {
