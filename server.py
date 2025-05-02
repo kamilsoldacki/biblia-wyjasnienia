@@ -1,3 +1,5 @@
+print(">>> Flask server STARTED and /ask should be available <<<")
+
 from flask import Flask, request, jsonify, send_from_directory
 import openai
 import os
