@@ -5,7 +5,9 @@ from flask import Flask, request, jsonify
 
 # Inicjalizacja aplikacji Flask, serwujemy pliki z folderu "static"
 # Serwowanie plików z katalogu głównego (index.html w repo root)
-app = Flask(__name__, static_folder="static")
+- app = Flask(__name__, static_folder=".", static_url_path="")
++ # serwujemy pliki tylko z katalogu static/
++ app = Flask(__name__, static_folder="static")
 
 # Klucze API z env vars
 openai.api_key = os.environ.get("OPENAI_API_KEY")
