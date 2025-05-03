@@ -151,7 +151,13 @@ def get_verse():
         print("Status:", response.status_code)
         print("URL:", url)
         print("Treść:", response.text)
-        return jsonify({"error": "Failed to fetch passage", "details": response.text}), 500
+        return f"""
+  <h3>❌ Błąd pobierania wersetu</h3>
+  <p><strong>Status:</strong> {response.status_code}</p>
+  <p><strong>Adres:</strong> {url}</p>
+  <pre>{response.text}</pre>
+""", 500
+
 
     data = response.json()
     content = data.get("data", {}).get("content", "")
