@@ -2,16 +2,17 @@ import os
 import re
 import requests
 import openai
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify
 
-app = Flask(__name__, static_folder="static", template_folder="templates")
+# Inicjalizacja aplikacji Flask, serwujemy pliki z folderu "static"
+app = Flask(__name__, static_folder="static")
 
 # Klucze API ustaw w zmiennych środowiskowych
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 BIBLE_API_KEY = os.environ.get("BIBLE_API_KEY")
-BIBLE_ID = os.environ.get("BIBLE_ID", "nwb")  # domyślnie "nwb", możesz zmienić w Render.com
+BIBLE_ID = os.environ.get("BIBLE_ID", "nwb")
 
-# Mapowanie polskich nazw ksiąg na angielskie nazwy oczekiwane przez API
+# Mapowanie polskich nazw ksiąg na angielskie
 book_map = {
     'Rodzaju': 'Genesis', 'Wyjścia': 'Exodus', 'Kapłańska': 'Leviticus',
     'Liczb': 'Numbers', 'Powtórzonego Prawa': 'Deuteronomy', 'Jozuego': 'Joshua',
@@ -35,9 +36,7 @@ book_map = {
     '3 Jana': '3 John', 'Judy': 'Jude', 'Objawienie': 'Revelation',
 }
 
-
 def convert_book_name(reference: str) -> str:
-    """Konwertuje polskie odwołanie (np. "Mateusza 5:9") na angielskie ("Matthew 5:9")."""
     parts = reference.strip().split(' ', 1)
     if len(parts) != 2:
         return reference
@@ -47,7 +46,6 @@ def convert_book_name(reference: str) -> str:
 
 
 def get_verse_text(ref: str) -> str:
-    """Pobiera tekst wersetu z API Bible."""
     url = f"https://api.scripture.api.bible/v1/bibles/{BIBLE_ID}/passages"
     headers = {"api-key": BIBLE_API_KEY}
     resp = requests.get(url, headers=headers, params={"q": ref})
@@ -56,12 +54,12 @@ def get_verse_text(ref: str) -> str:
     data = resp.json().get("data")
     return data.get("content") if data and "content" in data else None
 
-
+# Serwujemy główny plik HTML z folderu static
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return app.send_static_file('index.html')
 
-
+# Endpoint API dla POST /ask
 @app.route('/ask', methods=['POST'])
 def ask():
     payload = request.get_json() or {}
@@ -69,11 +67,10 @@ def ask():
     ref = convert_book_name(user_ref)
     verse_text = get_verse_text(ref) or ""
 
-    # Budujemy prompt dla OpenAI
     full_prompt = (
         f"Użytkownik prosi o komentarz do wersetu Biblii: '{user_ref}'.\n"
         f"Tekst wersetu: {verse_text}\n"
-        f"Napisz krótki, zrozumiały komentarz do tego wersetu."   
+        f"Napisz krótki, zrozumiały komentarz do tego wersetu."
     )
 
     try:
@@ -88,7 +85,6 @@ def ask():
         return jsonify({'answer': answer, 'verse': verse_text})
     except Exception as e:
         return jsonify({'answer': f'Wystąpił błąd: {str(e)}'}), 500
-
 
 if __name__ == '__main__':
     print('>>> Flask uruchomiony – oczekuję na /ask <<<')
