@@ -1,6 +1,12 @@
 from flask import Flask, request, jsonify, send_from_directory
 import openai
 import os
+import requests
+
+# Klucz do Scripture.Bible (z Render.com env var)
+bible_api_key = os.environ.get("BIBLE_API_KEY")
+# ID wersji, z której chcesz korzystać
+bible_version = "1c9761e0230da6e0-01"
 
 app = Flask(__name__)
 
@@ -17,10 +23,43 @@ def style():
 @app.route('/ask', methods=['POST'])
 def ask():
     data = request.get_json()
-    prompt = data.get('prompt')
+    prompt      = data.get('prompt')
+    book        = data.get('book')
+    chapter     = data.get('chapter')
+    verse_start = data.get('verse_start')
+    verse_end   = data.get('verse_end')  # może być None
 
     if not prompt:
         return jsonify({'answer': 'Nie otrzymano promptu.'}), 400
+
+    # 1) Pobranie tekstu wersetu/zakresu z Scripture.Bible
+    if verse_end:
+        passage_id = f"{book}.{chapter}.{verse_start}-{book}.{chapter}.{verse_end}"
+        url = f"https://api.scripture.api.bible/v1/bibles/{bible_version}/passages/{passage_id}?content-type=text"
+    else:
+        verse_id = f"{book}.{chapter}.{verse_start}"
+        url = f"https://api.scripture.api.bible/v1/bibles/{bible_version}/verses/{verse_id}?content-type=text"
+
+    headers = {"api-key": bible_api_key}
+    try:
+        bib_resp = requests.get(url, headers=headers)
+        bib_resp.raise_for_status()
+        verse_text = bib_resp.json()['data']['content'].strip()
+    except Exception as e:
+        verse_text = f"(błąd pobierania wersetu: {e})"
+
+    # 2) Wywołanie OpenAI
+    response = openai.ChatCompletion.create(
+        model="gpt-4o-mini",
+        messages=[{"role": "user", "content": prompt}]
+    )
+    answer = response['choices'][0]['message']['content']
+
+    # 3) Zwracamy JSON z odpowiedzią i tekstem wersetu
+    return jsonify({
+        'verse_text': verse_text,
+        'answer': answer
+    })
 
     try:
         response = openai.ChatCompletion.create(
