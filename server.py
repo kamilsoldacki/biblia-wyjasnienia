@@ -147,13 +147,12 @@ def get_verse():
     response = requests.get(url, headers=headers)
 
     if response.status_code != 200:
-        return jsonify({"error": "Failed to fetch verse"}), 500
+        return jsonify({"error": "Failed to fetch passage", "details": response.text}), 500
 
     data = response.json()
-    content = data.get("data", {}).get("content", "") or data.get("data", {}).get("reference", "")
+    content = data.get("data", {}).get("content", "")
 
     return jsonify({"text": content})
-
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=10000)
