@@ -53,14 +53,6 @@ def index():
 def style():
     return send_from_directory('', 'style.css')
 
-@app.route('/ask', methods=['POST'])
-def ask():
-    data = request.get_json()
-    prompt = data.get('prompt')
-
-    if not prompt:
-        return jsonify({'answer': 'Nie otrzymano promptu.'}), 400
-
     verse_text = get_verse_text(prompt)
     if not verse_text:
         return jsonify({'answer': 'Nie udało się znaleźć wersetu.'}), 404
