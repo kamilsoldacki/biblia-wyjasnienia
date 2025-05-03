@@ -45,5 +45,65 @@ def ask():
     except Exception as e:
         return jsonify({'answer': f'Wystąpił błąd: {str(e)}'}), 500
 
+--- server.py
++++ server.py
+@@
+-from flask import Flask, request, jsonify, send_from_directory
++from flask import Flask, request, jsonify, send_from_directory
+ import openai
+ import os
++import requests
+
+ app = Flask(__name__)
+ openai.api_key = os.environ.get("OPENAI_API_KEY")
++# klucz do Scripture.Bible
++bible_api_key = os.environ.get("BIBLE_API_KEY")
++# ID Twojej wersji Biblii
++bible_version = "1c9761e0230da6e0-01"
+
+@@
+ @app.route('/ask', methods=['POST'])
+ def ask():
+     data = request.get_json()
+-    prompt = data.get('prompt')
++    prompt = data.get('prompt')
++    book = data.get('book')
++    chapter = data.get('chapter')
++    vs = data.get('verse_start')
++    ve = data.get('verse_end')  # może być None
+     if not prompt:
+         return jsonify({'answer': 'Nie otrzymano promptu.'}), 400
+
++    # 1) pobranie tekstu wersetu/zakresu
++    # budujemy passageId: np. "MAT.1.2" lub "MAT.1.2-MAT.1.5"
++    if ve:
++        passage_id = f"{book}.{chapter}.{vs}-{book}.{chapter}.{ve}"
++        url = f"https://api.scripture.api.bible/v1/bibles/{bible_version}/passages/{passage_id}?content-type=text"
++    else:
++        passage_id = f"{book}.{chapter}.{vs}"
++        url = f"https://api.scripture.api.bible/v1/bibles/{bible_version}/verses/{passage_id}?content-type=text"
++
++    headers = {"api-key": bible_api_key}
++    try:
++        bib_resp = requests.get(url, headers=headers)
++        bib_resp.raise_for_status()
++        bib_data = bib_resp.json()
++        # API zwraca pole data.content z samym tekstem
++        verse_text = bib_data['data']['content'].strip()
++    except Exception as e:
++        verse_text = f"(błąd pobierania wersetu: {e})"
+
+     try:
+         response = openai.ChatCompletion.create(
+@@
+         answer = response['choices'][0]['message']['content']
+-        return jsonify({'answer': answer})
++        # 2) zwracamy odpowiedź + tekst wersetu
++        return jsonify({
++            'verse_text': verse_text,
++            'answer': answer
++        })
+
+
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=10000)
