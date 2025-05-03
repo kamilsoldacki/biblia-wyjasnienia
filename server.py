@@ -5,7 +5,7 @@ import openai
 from flask import Flask, request, jsonify
 
 # Inicjalizacja aplikacji Flask, serwujemy pliki z folderu "static"
-app = Flask(__name__, static_folder="static")
++ app = Flask(__name__, static_folder=".", static_url_path="")
 
 # Klucze API ustaw w zmiennych środowiskowych
 openai.api_key = os.environ.get("OPENAI_API_KEY")
