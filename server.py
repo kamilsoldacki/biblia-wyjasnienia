@@ -5,7 +5,7 @@ import openai
 from flask import Flask, request, jsonify
 
 # Inicjalizacja aplikacji Flask, serwujemy pliki z folderu "static"
-app = Flask(__name__, static_folder=".", static_url_path="")
+app = Flask(__name__, static_folder="static")
 
 # Klucze API ustaw w zmiennych środowiskowych
 openai.api_key = os.environ.get("OPENAI_API_KEY")
@@ -74,13 +74,20 @@ def ask():
     )
 
     try:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages=[
-                {"role": "system", "content": "Jesteś pomocnym asystentem."},
-                {"role": "user", "content": full_prompt}
-            ]
-        )
+-        response = openai.ChatCompletion.create(
+-            model="gpt-3.5-turbo",
+-            messages=[
+-                {"role": "system", "content": "Jesteś pomocnym asystentem."},
+-                {"role": "user", "content": full_prompt}
+-            ]
+-        )
++        response = openai.chat.completions.create(
++            model="gpt-3.5-turbo",
++            messages=[
++                {"role": "system", "content": "Jesteś pomocnym asystentem."},
++                {"role": "user", "content": full_prompt}
++            ]
++        )
         answer = response.choices[0].message.content
         return jsonify({'answer': answer, 'verse': verse_text})
     except Exception as e:
