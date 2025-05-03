@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Wyjaśnij fragment Biblii</title>
+  <link href="style.css" rel="stylesheet"/>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <h1>Wyjaśnij fragment Biblii</h1>
+    <p class="intro">
+      Wybierz fragment Biblii, a zobaczysz jego głębszy sens i znaczenie.
+    </p>
+    <form id="bibleForm">
+      <label for="book">Księga:</label>
+      <select id="book" name="book" required>
+        <option value="">Wybierz księgę</option>
+        <optgroup label="Stary Testament">
+          <option value="Rodzaju">Rodzaju</option>
+          <option value="Wyjścia">Wyjścia</option>
+          <option value="Kapłańska">Kapłańska</option>
+          <option value="Liczb">Liczb</option>
+          <option value="Powtórzonego Prawa">Powtórzonego Prawa</option>
+          <option value="Jozuego">Jozuego</option>
+          <option value="Sędziów">Sędziów</option>
+          <option value="Ruty">Ruty</option>
+          <option value="1 Samuela">1 Samuela</option>
+          <option value="2 Samuela">2 Samuela</option>
+          <option value="1 Królewska">1 Królewska</option>
+          <option value="2 Królewska">2 Królewska</option>
+          <option value="1 Kronik">1 Kronik</option>
+          <option value="2 Kronik">2 Kronik</option>
+          <option value="Ezdrasza">Ezdrasza</option>
+          <option value="Nehemiasza">Nehemiasza</option>
+          <option value="Estery">Estery</option>
+          <option value="Hioba">Hioba</option>
+          <option value="Psalmów">Psalmów</option>
+          <option value="Przysłów">Przysłów</option>
+          <option value="Kaznodziei">Kaznodziei</option>
+          <option value="Pieśń nad pieśniami">Pieśń nad pieśniami</option>
+          <option value="Izajasza">Izajasza</option>
+          <option value="Jeremiasza">Jeremiasza</option>
+          <option value="Lamentacje">Lamentacje</option>
+          <option value="Ezechiela">Ezechiela</option>
+          <option value="Daniela">Daniela</option>
+          <option value="Ozeasza">Ozeasza</option>
+          <option value="Joela">Joela</option>
+          <option value="Amosa">Amosa</option>
+          <option value="Abdiasza">Abdiasza</option>
+          <option value="Jonasza">Jonasza</option>
+          <option value="Micheasza">Micheasza</option>
+          <option value="Nahuma">Nahuma</option>
+          <option value="Habakuka">Habakuka</option>
+          <option value="Sofoniasza">Sofoniasza</option>
+          <option value="Aggeusza">Aggeusza</option>
+          <option value="Zachariasza">Zachariasza</option>
+          <option value="Malachiasza">Malachiasza</option>
+        </optgroup>
+        <optgroup label="Nowy Testament">
+          <option value="Ewangelia Mateusza">Ewangelia Mateusza</option>
+          <option value="Ewangelia Marka">Ewangelia Marka</option>
+          <option value="Ewangelia Łukasza">Ewangelia Łukasza</option>
+          <option value="Ewangelia Jana">Ewangelia Jana</option>
+          <option value="Dzieje Apostolskie">Dzieje Apostolskie</option>
+          <option value="List do Rzymian">List do Rzymian</option>
+          <option value="1 List do Koryntian">1 List do Koryntian</option>
+          <option value="2 List do Koryntian">2 List do Koryntian</option>
+          <option value="List do Galacjan">List do Galacjan</option>
+          <option value="List do Efezjan">List do Efezjan</option>
+          <option value="List do Filipian">List do Filipian</option>
+          <option value="List do Kolosan">List do Kolosan</option>
+          <option value="1 List do Tesaloniczan">1 List do Tesaloniczan</option>
+          <option value="2 List do Tesaloniczan">2 List do Tesaloniczan</option>
+          <option value="1 List do Tymoteusza">1 List do Tymoteusza</option>
+          <option value="2 List do Tymoteusza">2 List do Tymoteusza</option>
+          <option value="List do Tytusa">List do Tytusa</option>
+          <option value="List do Filemona">List do Filemona</option>
+          <option value="List do Hebrajczyków">List do Hebrajczyków</option>
+          <option value="List Jakuba">List Jakuba</option>
+          <option value="1 List Piotra">1 List Piotra</option>
+          <option value="2 List Piotra">2 List Piotra</option>
+          <option value="1 List Jana">1 List Jana</option>
+          <option value="2 List Jana">2 List Jana</option>
+          <option value="3 List Jana">3 List Jana</option>
+          <option value="List Judy">List Judy</option>
+          <option value="Objawienie Jana">Objawienie Jana</option>
+        </optgroup>
+      </select>
+
+      <label for="chapter">Rozdział:</label>
+      <input type="number" id="chapter" name="chapter" min="1" required />
+
+      <label for="verseFrom">Werset od:</label>
+      <input type="number" id="verseFrom" name="verseFrom" min="1" required />
+
+      <label for="verseTo">Werset do (opcjonalnie):</label>
+      <input type="number" id="verseTo" name="verseTo" min="1" />
+
+      <button type="submit">Wyjaśnij</button>
+    </form>
+
+    <div id="response"></div>
+  </div>
+
+  <script>
+    document.getElementById('bibleForm').addEventListener('submit', async function (event) {
+      event.preventDefault();
+
+      const book = document.getElementById('book').value;
+      const chapter = document.getElementById('chapter').value;
+      const verseFrom = document.getElementById('verseFrom').value;
+      const verseTo = document.getElementById('verseTo').value;
+      const responseDiv = document.getElementById('response');
+
+      let fragment = `${book} ${chapter}:${verseFrom}`;
+      if (verseTo) {
+        fragment += `-${verseTo}`;
+      }
+
+      const prompt = `Wyjaśnij fragment Biblii ${fragment}.`;
+
+      const steps = [
+        "Czytam wybrany fragment...",
+        "Sprawdzam języki oryginalne...",
+        "Szukam kontekstu historycznego...",
+        "Układam wyjaśnienie..."
+      ];
+
+      let stepIndex = 0;
+      responseDiv.innerHTML = `<p>${steps[stepIndex]}</p>`;
+
+      const loadingInterval = setInterval(() => {
+        stepIndex++;
+        if (stepIndex < steps.length) {
+          responseDiv.innerHTML = `<p>${steps[stepIndex]}</p>`;
+        }
+      }, 2500);
+
+      try {
+        const response = await fetch('/ask', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ prompt }),
+        });
+
+        const data = await response.json();
+        clearInterval(loadingInterval);
+        responseDiv.innerHTML = `<p><strong>Odpowiedź:</strong></p><div>${marked.parse(data.answer)}</div>`;
+      } catch (error) {
+        clearInterval(loadingInterval);
+        responseDiv.innerHTML = 'Wystąpił błąd. Ponów próbę.';
+      }
+    });
+  </script>
+  <script src="/static/script.js"></script>
+</body>
+</html>
