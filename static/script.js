@@ -1,4 +1,3 @@
-// 1) Ładowanie struktury Biblii i ustawianie limitów chapter/verse
 fetch('/static/bibleStructure_full.json')
   .then(response => response.json())
   .then(bibleStructure => {
@@ -7,96 +6,49 @@ fetch('/static/bibleStructure_full.json')
     const verseFromInput = document.getElementById('verseFrom');
     const verseToInput = document.getElementById('verseTo');
 
+    // 1. Aktualizuj listę ksiąg tylko jeśli chcesz generować ją dynamicznie
+    // (Jeśli masz <optgroup> w HTML, to pomiń ten fragment):
+    // Object.keys(bibleStructure).forEach(book => {
+    //   const option = document.createElement('option');
+    //   option.value = book;
+    //   option.textContent = book;
+    //   bookSelect.appendChild(option);
+    // });
+
+    // 2. Po zmianie księgi ustaw max rozdział
     bookSelect.addEventListener('change', () => {
-      const bookData = bibleStructure[bookSelect.value];
+      const selectedBook = bookSelect.value;
+      const bookData = bibleStructure[selectedBook];
+
       if (bookData) {
+        const maxChapter = bookData.chapters;
         chapterInput.value = 1;
         chapterInput.min = 1;
-        chapterInput.max = bookData.chapters;
+        chapterInput.max = maxChapter;
         updateVerseInputs(bookData, 1);
       }
     });
 
+    // 3. Po zmianie rozdziału ustaw max werset
     chapterInput.addEventListener('change', () => {
-      const bookData = bibleStructure[bookSelect.value];
-      const ch = parseInt(chapterInput.value, 10);
-      if (bookData && bookData.verses[ch]) {
-        updateVerseInputs(bookData, ch);
+      const selectedBook = bookSelect.value;
+      const selectedChapter = parseInt(chapterInput.value);
+      const bookData = bibleStructure[selectedBook];
+
+      if (bookData && bookData.verses[selectedChapter]) {
+        updateVerseInputs(bookData, selectedChapter);
       }
     });
 
     function updateVerseInputs(bookData, chapter) {
-      const maxV = bookData.verses[chapter];
+      const maxVerse = bookData.verses[chapter];
       verseFromInput.value = 1;
       verseFromInput.min = 1;
-      verseFromInput.max = maxV;
+      verseFromInput.max = maxVerse;
       verseToInput.value = '';
       verseToInput.min = 1;
-      verseToInput.max = maxV;
+      verseToInput.max = maxVerse;
     }
-
-    // 2) Obsługa formularza – po załadowaniu struktury podpinamy submit:
-    const form = document.getElementById('bibleForm');
-    const responseDiv = document.getElementById('response');
-    const verseTextElem = document.getElementById('selected-verse-text');
-
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      const book = bookSelect.value;
-      const chapter = chapterInput.value;
-      const verseFrom = verseFromInput.value;
-      const verseTo = verseToInput.value;
-
-      // przygotuj prompt i animację „kroków”
-      let fragment = `${book} ${chapter}:${verseFrom}`;
-      if (verseTo) fragment += `-${verseTo}`;
-      const prompt = `Wyjaśnij fragment Biblii ${fragment}.`;
-
-      const steps = [
-        "Czytam wybrany fragment...",
-        "Sprawdzam języki oryginalne...",
-        "Szukam kontekstu historycznego...",
-        "Układam wyjaśnienie..."
-      ];
-      let idx = 0;
-      responseDiv.innerHTML = `<p>${steps[idx]}</p>`;
-      const loading = setInterval(() => {
-        idx++;
-        if (idx < steps.length) {
-          responseDiv.innerHTML = `<p>${steps[idx]}</p>`;
-        }
-      }, 2500);
-
-      try {
-        const res = await fetch('/ask', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            prompt,
-            book,
-            chapter,
-            verse_start: verseFrom,
-            verse_end: verseTo || null
-          })
-        });
-        const data = await res.json();
-        clearInterval(loading);
-
-        // 3) Wstawiamy tekst wersetu
-        verseTextElem.innerText = data.verse_text;
-
-        // 4) Wstawiamy odpowiedź
-        responseDiv.innerHTML =
-          `<p><strong>Odpowiedź:</strong></p>
-           <div>${marked.parse(data.answer)}</div>`;
-      } catch (err) {
-        clearInterval(loading);
-        responseDiv.innerText = 'Wystąpił błąd. Spróbuj ponownie.';
-        console.error(err);
-      }
-    });
-
   })
   .catch(error => {
     console.error("Błąd wczytywania struktury Biblii:", error);
