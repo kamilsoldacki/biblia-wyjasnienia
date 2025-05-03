@@ -1,5 +1,4 @@
 import os
-import re
 import requests
 import openai
 from flask import Flask, request, jsonify
@@ -7,12 +6,12 @@ from flask import Flask, request, jsonify
 # Inicjalizacja aplikacji Flask, serwujemy pliki z folderu "static"
 app = Flask(__name__, static_folder="static")
 
-# Klucze API ustaw w zmiennych środowiskowych
+# Klucze API z env vars
 openai.api_key = os.environ.get("OPENAI_API_KEY")
 BIBLE_API_KEY = os.environ.get("BIBLE_API_KEY")
 BIBLE_ID = os.environ.get("BIBLE_ID", "nwb")
 
-# Mapowanie polskich nazw ksiąg na angielskie
+# Mapowanie polskich nazw ksiąg na angielskie nazwy
 book_map = {
     'Rodzaju': 'Genesis', 'Wyjścia': 'Exodus', 'Kapłańska': 'Leviticus',
     'Liczb': 'Numbers', 'Powtórzonego Prawa': 'Deuteronomy', 'Jozuego': 'Joshua',
@@ -54,12 +53,11 @@ def get_verse_text(ref: str) -> str:
     data = resp.json().get("data")
     return data.get("content") if data and "content" in data else None
 
-# Serwujemy główny plik HTML z folderu static
 @app.route('/')
 def index():
+    # Serwujemy statyczny index.html z katalogu public/static
     return app.send_static_file('index.html')
 
-# Endpoint API dla POST /ask
 @app.route('/ask', methods=['POST'])
 def ask():
     payload = request.get_json() or {}
@@ -74,20 +72,13 @@ def ask():
     )
 
     try:
--        response = openai.ChatCompletion.create(
--            model="gpt-3.5-turbo",
--            messages=[
--                {"role": "system", "content": "Jesteś pomocnym asystentem."},
--                {"role": "user", "content": full_prompt}
--            ]
--        )
-+        response = openai.chat.completions.create(
-+            model="gpt-3.5-turbo",
-+            messages=[
-+                {"role": "system", "content": "Jesteś pomocnym asystentem."},
-+                {"role": "user", "content": full_prompt}
-+            ]
-+        )
+        response = openai.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": "Jesteś pomocnym asystentem."},
+                {"role": "user", "content": full_prompt}
+            ]
+        )
         answer = response.choices[0].message.content
         return jsonify({'answer': answer, 'verse': verse_text})
     except Exception as e:
