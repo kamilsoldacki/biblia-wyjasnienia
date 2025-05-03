@@ -88,15 +88,7 @@ def ask():
     except Exception as e:
         return jsonify({'answer': f'Wystąpił błąd: {str(e)}'}), 500
 
-@app.route('/ask', methods=['POST'])
-def ask():
-    data = request.get_json()
-    prompt = data.get('prompt', '')
-    response = process_question(prompt)
-    return jsonify({'answer': response})
+print(">>> Flask uruchomiony – oczekuję na /ask <<<")
 
-import os
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
-
+    app.run(host="0.0.0.0", port=10000)
