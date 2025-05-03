@@ -138,26 +138,23 @@ def get_verse():
     if not book_code:
         return jsonify({"error": f"Unsupported book: {book}"}), 400
 
-    verse_ref = f"{book_code}.{chapter}.{verse_from}"
+    # Tworzenie identyfikatora OSIS
     if verse_to:
-        verse_ref += f"-{verse_to}"
+        passage_id = f"{book_code}.{chapter}.{verse_from}-{book_code}.{chapter}.{verse_to}"
+    else:
+        passage_id = f"{book_code}.{chapter}.{verse_from}"
 
-    url = f"https://api.scripture.api.bible/v1/bibles/{BIBLE_ID}/passages/{verse_ref}?content-type=text&include-notes=false&include-titles=false&include-chapter-numbers=false&include-verse-numbers=false"
+    url = f"https://api.scripture.api.bible/v1/bibles/{BIBLE_ID}/passages/{passage_id}?content-type=text&include-notes=false&include-titles=false&include-chapter-numbers=false&include-verse-numbers=false"
     headers = {"api-key": BIBLE_API_KEY}
     response = requests.get(url, headers=headers)
 
     if response.status_code != 200:
-        print("❌ Błąd API Scripture:")
-        print("Status:", response.status_code)
-        print("URL:", url)
-        print("Treść:", response.text)
-        return f"""
-  <h3>❌ Błąd pobierania wersetu</h3>
-  <p><strong>Status:</strong> {response.status_code}</p>
-  <p><strong>Adres:</strong> {url}</p>
-  <pre>{response.text}</pre>
-""", 500
-
+        return jsonify({
+            "error": "Failed to fetch passage",
+            "status": response.status_code,
+            "url": url,
+            "details": response.text
+        }), 500
 
     data = response.json()
     content = data.get("data", {}).get("content", "")
