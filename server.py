@@ -142,7 +142,7 @@ def get_verse():
     if verse_to:
         verse_ref += f"-{verse_to}"
 
-    url = f"https://api.scripture.api.bible/v1/bibles/{BIBLE_ID}/verses/{verse_ref}"
+    url = f"https://api.scripture.api.bible/v1/bibles/{BIBLE_ID}/passages/{verse_ref}?content-type=text&include-notes=false&include-titles=false&include-chapter-numbers=false&include-verse-numbers=false"
     headers = {"api-key": BIBLE_API_KEY}
     response = requests.get(url, headers=headers)
 
@@ -150,7 +150,7 @@ def get_verse():
         return jsonify({"error": "Failed to fetch verse"}), 500
 
     data = response.json()
-    content = data.get("data", {}).get("content", "")
+    content = data.get("data", {}).get("content", "") or data.get("data", {}).get("reference", "")
 
     return jsonify({"text": content})
 
