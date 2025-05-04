@@ -5,42 +5,27 @@ body {
   font-size: 85%;
   background-color: #ffffff;
   margin: 0;
-  padding: 2rem;
+  padding: 0;
   color: #222;
   min-height: 100vh;
+  display: flex;
+  justify-content: center;
   position: relative;
   overflow-x: hidden;
 }
 
-/* Cienkie czarne linie po lewej i prawej stronie */
-body::before,
-body::after {
-  content: "";
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background-color: black;
-  z-index: 0;
-}
-
-body::before {
-  left: 20px;
-}
-
-body::after {
-  right: 20px;
+.wrapper {
+  display: flex;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  width: 720px;
+  padding: 2rem;
+  box-sizing: border-box;
+  z-index: 1;
 }
 
 .container {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 2rem 2.5rem;
-  background: none;
-  border-radius: 0;
-  box-shadow: none;
-  position: relative;
-  z-index: 1;
+  width: 100%;
 }
 
 h1 {
