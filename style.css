@@ -200,3 +200,20 @@ button {
   row-gap: 0.4rem;
   align-items: end;
 }
+
+.form-block {
+  margin-top: 2rem;
+}
+
+.verse-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1rem;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 0.6rem;
+  font-weight: 500;
+}
+
