@@ -3,19 +3,44 @@
 body {
   font-family: 'Inter', sans-serif;
   font-size: 85%;
-  background-color: #f0f2f5;
+  background-color: #ffffff;
   margin: 0;
   padding: 2rem;
   color: #222;
+  min-height: 100vh;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Cienkie czarne linie po lewej i prawej stronie */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: black;
+  z-index: 0;
+}
+
+body::before {
+  left: 20px;
+}
+
+body::after {
+  right: 20px;
 }
 
 .container {
   max-width: 720px;
   margin: 0 auto;
   padding: 2rem 2.5rem;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  position: relative;
+  z-index: 1;
 }
 
 h1 {
