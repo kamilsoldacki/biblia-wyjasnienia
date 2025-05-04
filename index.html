@@ -92,13 +92,18 @@
 </div>
 
 <div class="form-block verse-grid">
-  <label for="chapter">Rozdział:</label>
-  <label for="verseFrom">Werset od:</label>
-  <label for="verseTo">do (opcjonalnie):</label>
-
-  <input type="number" id="chapter" name="chapter" min="1" required />
-  <input type="number" id="verseFrom" name="verseFrom" min="1" required />
-  <input type="number" id="verseTo" name="verseTo" min="1" />
+  <div class="field">
+    <label for="chapter">Rozdział:</label>
+    <input type="number" id="chapter" name="chapter" min="1" required />
+  </div>
+  <div class="field">
+    <label for="verseFrom">Werset od:</label>
+    <input type="number" id="verseFrom" name="verseFrom" min="1" required />
+  </div>
+  <div class="field">
+    <label for="verseTo">do (opcjonalnie):</label>
+    <input type="number" id="verseTo" name="verseTo" min="1" />
+  </div>
 </div>
 
       <button type="submit">Wyjaśnij</button>
