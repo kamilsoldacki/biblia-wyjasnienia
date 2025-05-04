@@ -91,17 +91,14 @@
         </optgroup>
       </select>
 
-      <div class="verse-group">
-  <div class="verse-labels">
-    <label for="chapter">Rozdział:</label>
-    <label for="verseFrom">Werset od:</label>
-    <label for="verseTo">Werset do (opcjonalnie):</label>
-  </div>
-  <div class="verse-inputs">
-    <input type="number" id="chapter" name="chapter" min="1" required />
-    <input type="number" id="verseFrom" name="verseFrom" min="1" required />
-    <input type="number" id="verseTo" name="verseTo" min="1" />
-  </div>
+<div class="verse-grid">
+  <label for="chapter">Rozdział:</label>
+  <label for="verseFrom">Werset od:</label>
+  <label for="verseTo">Werset do (opcjonalnie):</label>
+
+  <input type="number" id="chapter" name="chapter" min="1" required />
+  <input type="number" id="verseFrom" name="verseFrom" min="1" required />
+  <input type="number" id="verseTo" name="verseTo" min="1" />
 </div>
 
       <button type="submit">Wyjaśnij</button>
