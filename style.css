@@ -87,7 +87,7 @@ button:hover {
 .verse-inputs {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .verse-labels label,
