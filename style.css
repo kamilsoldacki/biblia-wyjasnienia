@@ -18,7 +18,8 @@ body {
   display: flex;
   border-left: 1px solid black;
   border-right: 1px solid black;
-  width: 720px;
+  max-width: 860px;
+  width: 100%;
   padding-top: 0;
   padding-right: 2rem;
   padding-bottom: 2rem;
