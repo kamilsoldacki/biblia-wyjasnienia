@@ -1,34 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
-html, body {
-  margin: 0;
-  padding: 0;
+body {
   font-family: 'Inter', sans-serif;
   font-size: 85%;
   background-color: #ffffff;
+  margin: 0;
+  padding: 0;
   color: #222;
   min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: relative;
   overflow-x: hidden;
-  max-width: 100vw;
+  overscroll-behavior-x: none;
   -webkit-text-size-adjust: 100%;
-  touch-action: manipulation;
-}
-
-body {
-  display: block; /* zamiast flex */
 }
 
 .wrapper {
   display: flex;
-  flex-direction: column;
   border-left: 1px solid black;
   border-right: 1px solid black;
   max-width: 860px;
   width: 100%;
-  padding: 0 1rem 2rem 1rem;
+  padding-top: 0;
+  padding-right: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 2rem;
   box-sizing: border-box;
   z-index: 1;
-  margin: 0 auto; /* centrum strony */
 }
 
 .container {
@@ -139,21 +138,8 @@ form > * {
   display: block;
 }
 
-/* Mobile-specific tweaks */
+/* Mobile fix: zapobiega zoomowi formularza na mobile */
 @media (max-width: 600px) {
-  body {
-    font-size: 94%;
-  }
-
-  input,
-  select,
-  textarea,
-  button {
-    font-size: 1em !important;
-    -webkit-appearance: none;
-    appearance: none;
-  }
-
   .verse-labels,
   .verse-inputs {
     flex-direction: column;
@@ -163,5 +149,12 @@ form > * {
   .verse-labels label,
   .verse-inputs input {
     width: 100%;
+  }
+
+  input,
+  textarea,
+  select,
+  button {
+    font-size: 16px !important;
   }
 }
