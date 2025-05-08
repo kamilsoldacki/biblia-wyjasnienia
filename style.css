@@ -150,9 +150,10 @@ form > * {
 }
 
 @media (max-width: 600px) {
-  input,
-  textarea,
-  select {
-    font-size: 12px !important;
+  body {
+    font-size: 94%;
+  }
+  input, select, textarea {
+    font-size: 1em !important;
   }
 }
