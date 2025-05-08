@@ -8,12 +8,14 @@ html, body {
   background-color: #ffffff;
   color: #222;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
   overflow-x: hidden;
-  max-width: 100%;
+  max-width: 100vw;
   -webkit-text-size-adjust: 100%;
   touch-action: manipulation;
+}
+
+body {
+  display: block; /* zamiast flex */
 }
 
 .wrapper {
@@ -26,7 +28,7 @@ html, body {
   padding: 0 1rem 2rem 1rem;
   box-sizing: border-box;
   z-index: 1;
-  margin: 0 auto;
+  margin: 0 auto; /* centrum strony */
 }
 
 .container {
@@ -137,6 +139,7 @@ form > * {
   display: block;
 }
 
+/* Mobile-specific tweaks */
 @media (max-width: 600px) {
   body {
     font-size: 94%;
