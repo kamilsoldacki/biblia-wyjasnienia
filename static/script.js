@@ -1,55 +1,108 @@
-fetch('/static/bibleStructure_full.json')
-  .then(response => response.json())
-  .then(bibleStructure => {
-    const bookSelect = document.getElementById('book');
-    const chapterInput = document.getElementById('chapter');
-    const verseFromInput = document.getElementById('verseFrom');
-    const verseToInput = document.getElementById('verseTo');
+document.getElementById("storyForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const form = e.target;
 
-    // 1. Aktualizuj listę ksiąg tylko jeśli chcesz generować ją dynamicznie
-    // (Jeśli masz <optgroup> w HTML, to pomiń ten fragment):
-    // Object.keys(bibleStructure).forEach(book => {
-    //   const option = document.createElement('option');
-    //   option.value = book;
-    //   option.textContent = book;
-    //   bookSelect.appendChild(option);
-    // });
+    const data = {
+        q1: form.q1.value,
+        q2: form.q2.value,
+        q3: form.q3.value,
+        q4: form.q4.value,
+        q5: form.q5.value
+    };
 
-    // 2. Po zmianie księgi ustaw max rozdział
-    bookSelect.addEventListener('change', () => {
-      const selectedBook = bookSelect.value;
-      const bookData = bibleStructure[selectedBook];
+    // Ukryj formularz i pokaż pasek ładowania
+    form.style.display = "none";
+    const loadingBarContainer = document.getElementById("loadingBarContainer");
+    const loadingBar = document.getElementById("loadingBar");
+    const loadingPercent = document.getElementById("loadingPercent");
+    loadingBarContainer.style.display = "block";
 
-      if (bookData) {
-        const maxChapter = bookData.chapters;
-        chapterInput.value = 1;
-        chapterInput.min = 1;
-        chapterInput.max = maxChapter;
-        updateVerseInputs(bookData, 1);
-      }
-    });
+    let current = 0;
+    const max = 96;
+    const duration = 240000; // 4 minuty = 240 000 ms
+    const interval = duration / max;
 
-    // 3. Po zmianie rozdziału ustaw max werset
-    chapterInput.addEventListener('change', () => {
-      const selectedBook = bookSelect.value;
-      const selectedChapter = parseInt(chapterInput.value);
-      const bookData = bibleStructure[selectedBook];
+    const progressInterval = setInterval(() => {
+        if (current < max) {
+            current++;
+            loadingBar.style.width = `${current}%`;
+            loadingPercent.textContent = `${current}%`;
+        } else {
+            clearInterval(progressInterval);
+        }
+    }, interval);
 
-      if (bookData && bookData.verses[selectedChapter]) {
-        updateVerseInputs(bookData, selectedChapter);
-      }
-    });
+    try {
+        const response = await fetch("/generate", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
 
-    function updateVerseInputs(bookData, chapter) {
-      const maxVerse = bookData.verses[chapter];
-      verseFromInput.value = 1;
-      verseFromInput.min = 1;
-      verseFromInput.max = maxVerse;
-      verseToInput.value = '';
-      verseToInput.min = 1;
-      verseToInput.max = maxVerse;
+        const result = await response.json();
+        const timeRemaining = Math.max(0, duration - current * interval);
+
+        setTimeout(() => {
+            loadingBarContainer.style.display = "none";
+
+            if (result.audio_base64) {
+                const audio = document.getElementById("audio");
+                audio.src = "data:audio/mpeg;base64," + result.audio_base64;
+                showPlayer();
+            } else {
+                alert("Wystąpił problem z generowaniem audio.");
+                console.error(result);
+            }
+        }, timeRemaining);
+
+    } catch (error) {
+        console.error("Błąd podczas wysyłania żądania:", error);
+        alert("Coś poszło nie tak.");
+        form.style.display = "block";
+        loadingBarContainer.style.display = "none";
     }
-  })
-  .catch(error => {
-    console.error("Błąd wczytywania struktury Biblii:", error);
-  });
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const steps = document.querySelectorAll(".step");
+  const prevBtn = document.getElementById("prevBtn");
+  const nextBtn = document.getElementById("nextBtn");
+  const submitBtn = document.getElementById("submitBtn");
+  const stepIndicator = document.getElementById("step-indicator");
+  let currentStep = 0;
+
+  function showStep(index) {
+    steps.forEach((step, i) => {
+      step.classList.toggle("hidden", i !== index);
+    });
+    prevBtn.classList.toggle("hidden", index === 0);
+    nextBtn.classList.toggle("hidden", index === steps.length - 1);
+    submitBtn.classList.toggle("hidden", index !== steps.length - 1);
+    if (stepIndicator) {
+      stepIndicator.textContent = `Krok ${index + 1} z ${steps.length}`;
+    }
+  }
+
+  if (prevBtn && nextBtn && submitBtn && steps.length > 0) {
+    prevBtn.addEventListener("click", () => {
+      if (currentStep > 0) {
+        currentStep--;
+        showStep(currentStep);
+      }
+    });
+
+    nextBtn.addEventListener("click", () => {
+      const textarea = steps[currentStep].querySelector("textarea");
+      if (textarea && textarea.checkValidity()) {
+        currentStep++;
+        showStep(currentStep);
+      } else {
+        textarea.reportValidity();
+      }
+    });
+
+    showStep(currentStep);
+  }
+});

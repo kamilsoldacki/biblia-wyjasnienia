@@ -1,188 +1,85 @@
+
 <!DOCTYPE html>
 <html lang="pl">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>dioko.app</title>
-  <link href="style.css" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet"/>
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Twoja Bajka</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #fafafa;
+    }
+    textarea::placeholder {
+      color: #888;
+    }
+    textarea {
+      resize: none;
+    }
+    #player {
+      opacity: 0;
+      transform: translateY(8px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    #player.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
 </head>
-<body>
-  <div class="wrapper">
-  <div class="container">
-    <h1>dioko.app</h1>
-    <p class="intro">
-      Wybierz fragment Biblii, a zobaczysz jego głębszy sens i znaczenie.
-    </p>
-<form id="bibleForm">
-  <div class="form-block">
-  <label for="book">Księga:</label>
-  <select id="book" name="book" required>
-    <option value="">Wybierz księgę</option>
-        <optgroup label="Stary Testament">
-          <option value="Rodzaju">Rodzaju</option>
-          <option value="Wyjścia">Wyjścia</option>
-          <option value="Kapłańska">Kapłańska</option>
-          <option value="Liczb">Liczb</option>
-          <option value="Powtórzonego Prawa">Powtórzonego Prawa</option>
-          <option value="Jozuego">Jozuego</option>
-          <option value="Sędziów">Sędziów</option>
-          <option value="Ruty">Ruty</option>
-          <option value="1 Samuela">1 Samuela</option>
-          <option value="2 Samuela">2 Samuela</option>
-          <option value="1 Królewska">1 Królewska</option>
-          <option value="2 Królewska">2 Królewska</option>
-          <option value="1 Kronik">1 Kronik</option>
-          <option value="2 Kronik">2 Kronik</option>
-          <option value="Ezdrasza">Ezdrasza</option>
-          <option value="Nehemiasza">Nehemiasza</option>
-          <option value="Estery">Estery</option>
-          <option value="Hioba">Hioba</option>
-          <option value="Psalmów">Psalmów</option>
-          <option value="Przysłów">Przysłów</option>
-          <option value="Kaznodziei">Kaznodziei</option>
-          <option value="Pieśń nad pieśniami">Pieśń nad pieśniami</option>
-          <option value="Izajasza">Izajasza</option>
-          <option value="Jeremiasza">Jeremiasza</option>
-          <option value="Lamentacje">Lamentacje</option>
-          <option value="Ezechiela">Ezechiela</option>
-          <option value="Daniela">Daniela</option>
-          <option value="Ozeasza">Ozeasza</option>
-          <option value="Joela">Joela</option>
-          <option value="Amosa">Amosa</option>
-          <option value="Abdiasza">Abdiasza</option>
-          <option value="Jonasza">Jonasza</option>
-          <option value="Micheasza">Micheasza</option>
-          <option value="Nahuma">Nahuma</option>
-          <option value="Habakuka">Habakuka</option>
-          <option value="Sofoniasza">Sofoniasza</option>
-          <option value="Aggeusza">Aggeusza</option>
-          <option value="Zachariasza">Zachariasza</option>
-          <option value="Malachiasza">Malachiasza</option>
-        </optgroup>
-        <optgroup label="Nowy Testament">
-          <option value="Ewangelia Mateusza">Ewangelia Mateusza</option>
-          <option value="Ewangelia Marka">Ewangelia Marka</option>
-          <option value="Ewangelia Łukasza">Ewangelia Łukasza</option>
-          <option value="Ewangelia Jana">Ewangelia Jana</option>
-          <option value="Dzieje Apostolskie">Dzieje Apostolskie</option>
-          <option value="List do Rzymian">List do Rzymian</option>
-          <option value="1 List do Koryntian">1 List do Koryntian</option>
-          <option value="2 List do Koryntian">2 List do Koryntian</option>
-          <option value="List do Galacjan">List do Galacjan</option>
-          <option value="List do Efezjan">List do Efezjan</option>
-          <option value="List do Filipian">List do Filipian</option>
-          <option value="List do Kolosan">List do Kolosan</option>
-          <option value="1 List do Tesaloniczan">1 List do Tesaloniczan</option>
-          <option value="2 List do Tesaloniczan">2 List do Tesaloniczan</option>
-          <option value="1 List do Tymoteusza">1 List do Tymoteusza</option>
-          <option value="2 List do Tymoteusza">2 List do Tymoteusza</option>
-          <option value="List do Tytusa">List do Tytusa</option>
-          <option value="List do Filemona">List do Filemona</option>
-          <option value="List do Hebrajczyków">List do Hebrajczyków</option>
-          <option value="List Jakuba">List Jakuba</option>
-          <option value="1 List Piotra">1 List Piotra</option>
-          <option value="2 List Piotra">2 List Piotra</option>
-          <option value="1 List Jana">1 List Jana</option>
-          <option value="2 List Jana">2 List Jana</option>
-          <option value="3 List Jana">3 List Jana</option>
-          <option value="List Judy">List Judy</option>
-          <option value="Objawienie Jana">Objawienie Jana</option>
-  </select>
-</div>
-
-<div class="form-block verse-grid">
-  <div class="field">
-    <label for="chapter">Rozdział:</label>
-    <input type="number" id="chapter" name="chapter" min="1" required />
+<body class="text-gray-800">
+  <div class="max-w-3xl mx-auto px-4 py-6">
+    <div class="w-full p-6 sm:p-8">
+      <div class="text-center mb-6">
+        <p class="text-sm text-gray-500">Wypełnij formularz, a my wygenerujemy Twoją opowieść i przeczytamy ją głosem.</p>
+      </div>
+      <form id="storyForm" class="space-y-4">
+        <div class="step">
+          <label class="block mb-1 text-sm font-medium">1. Gdzie rozgrywa się akcja historii?</label>
+          <textarea name="q1" required class="w-full p-3 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring focus:ring-black" placeholder="może to być zaczarowany las, Twoje mieszkanie, biuro pełne robotów, odległa planeta, podwodna kraina albo ukryte miasto w piwnicy Nowego Jorku - sky is the limit!" class="min-h-[120px] resize-none" name="q1" required class="w-full p-3 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring focus:ring-black" placeholder="może to być zaczarowany las, Twoje mieszkanie, biuro pełne robotów, odległa planeta, podwodna kraina albo ukryte miasto w piwnicy Nowego Jorku - sky is the limit!" style="resize: none;"></textarea>
+        </div>
+        <div class="step hidden">
+          <label class="block mb-1 text-sm font-medium">2. Jak nazywają się główni bohaterowie?</label>
+          <textarea name="q2" required class="w-full p-3 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring focus:ring-black" placeholder="możesz podać swoje imię, imiona znajomych, domowników, ukochanych pluszaków lub... ulubionych postaci z gier" class="min-h-[120px] resize-none" name="q2" required class="w-full p-3 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring focus:ring-black" placeholder="możesz podać swoje imię, imiona znajomych, domowników, ukochanych pluszaków lub... ulubionych postaci z gier" style="resize: none;"></textarea>
+        </div>
+        <div class="step hidden">
+          <label class="block mb-1 text-sm font-medium">3. Jaki jest motyw przewodni historii?</label>
+          <textarea name="q3" required class="w-full p-3 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring focus:ring-black" placeholder="co jest sercem tej opowieści? odwaga, przyjaźń, magia, wielka tajemnica, a może walka ze strachem lub szalona przygoda?" class="min-h-[120px] resize-none" name="q3" required class="w-full p-3 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring focus:ring-black" placeholder="co jest sercem tej opowieści? odwaga, przyjaźń, magia, wielka tajemnica, a może walka ze strachem lub szalona przygoda?" style="resize: none;"></textarea>
+        </div>
+        <div class="step hidden">
+          <label class="block mb-1 text-sm font-medium">4. Czy bohaterowie mają jakieś supermoce?</label>
+          <textarea name="q4" required class="w-full p-3 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring focus:ring-black" placeholder="wymyśl coś wow! niewidzialność, podróże w czasie, rozmowa ze zwierzętami, kontrola pogody, nadludzka siła, teleportacja lub cokolwiek innego, co sobie wyobrazisz" class="min-h-[120px] resize-none" name="q4" required class="w-full p-3 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring focus:ring-black" placeholder="wymyśl coś wow! niewidzialność, podróże w czasie, rozmowa ze zwierzętami, kontrola pogody, nadludzka siła, teleportacja lub cokolwiek innego, co sobie wyobrazisz" style="resize: none;"></textarea>
+        </div>
+        <div class="step hidden">
+          <label class="block mb-1 text-sm font-medium">5. Co bohaterowie robią w tej historii?</label>
+          <textarea name="q5" required class="w-full p-3 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring focus:ring-black" placeholder="np. wyruszają na wyprawę, rozwiązują zagadkę, pokonują złoczyńcę, odkrywają nowy świat, ratują kogoś w niebezpieczeństwie, znajdują ukryty skarb - a może odkrywają ukrytą wiedzę w starożytnych danych albo ratują świat przed zbuntowaną sztuczną inteligencją" class="min-h-[120px] resize-none" name="q5" required class="w-full p-3 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring focus:ring-black" placeholder="np. wyruszają na wyprawę, rozwiązują zagadkę, pokonują złoczyńcę, odkrywają nowy świat, ratują kogoś w niebezpieczeństwie, znajdują ukryty skarb - a może odkrywają ukrytą wiedzę w starożytnych danych albo ratują świat przed zbuntowaną sztuczną inteligencją" style="resize: none;"></textarea>
+        </div>
+        <div class="flex justify-between items-center mt-4">
+          <div id="step-indicator" class="text-sm text-gray-500">Krok 1 z 5</div>
+          <div class="ml-auto space-x-2">
+            <button type="button" id="prevBtn" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md text-sm hidden">← Wstecz</button>
+            <button type="button" id="nextBtn" class="px-4 py-2 bg-black text-white rounded-md text-sm">Dalej →</button>
+            <button type="submit" id="submitBtn" class="px-4 py-2 bg-black text-white rounded-md text-sm hidden">✨ Wygeneruj opowieść</button>
+          </div>
+        </div>
+      </form>
+      <div id="player" class="mt-8 text-center">
+        <h2 class="text-sm font-medium mb-2 text-gray-700">🎧 Posłuchaj swojej bajki:</h2>
+        <audio id="audio" controls class="w-full rounded-md shadow-sm"></audio>
+      </div>
+    </div>
   </div>
-  <div class="field">
-    <label for="verseFrom">Werset od:</label>
-    <input type="number" id="verseFrom" name="verseFrom" min="1" required />
-  </div>
-  <div class="field">
-    <label for="verseTo">do:</label>
-    <input type="number" id="verseTo" name="verseTo" min="1" placeholder="opcjonalnie" />
-  </div>
-</div>
-
-      <button type="submit">Wyjaśnij</button>
-    </form>
-
-    <div id="response"></div>
-  </div>
-  </div> 
-
-<script>
-  document.getElementById('bibleForm').addEventListener('submit', async function (event) {
-    event.preventDefault();
-
-    const book = document.getElementById('book').value;
-    const chapter = document.getElementById('chapter').value;
-    const verseFrom = document.getElementById('verseFrom').value;
-    const verseTo = document.getElementById('verseTo').value;
-    const responseDiv = document.getElementById('response');
-
-    let fragment = `${book} ${chapter}:${verseFrom}`;
-    if (verseTo) {
-      fragment += `-${verseTo}`;
+  <script>
+    const player = document.getElementById("player");
+    function showPlayer() {
+      player.style.display = "block";
+      setTimeout(() => {
+        player.classList.add("visible");
+      }, 10);
     }
-
-    // Pobranie tekstu wersetu z backendu
-    let verseText = "";
-    try {
-      const verseResponse = await fetch(`/api/verse?book=${encodeURIComponent(book)}&chapter=${chapter}&verseFrom=${verseFrom}&verseTo=${verseTo}`);
-      const verseData = await verseResponse.json();
-      verseText = verseData.text || "(Nie udało się pobrać tekstu wersetu)";
-    } catch (e) {
-      verseText = "(Błąd podczas pobierania wersetu)";
-    }
-
-    const prompt = `Wyjaśnij fragment Biblii ${fragment}: \n\n${verseText}`;
-
-
-    const steps = [
-      "Czytam wybrany fragment...",
-      "Sprawdzam języki oryginalne...",
-      "Szukam kontekstu historycznego...",
-      "Układam wyjaśnienie..."
-    ];
-
-    let stepIndex = 0;
-    responseDiv.innerHTML = `<p>${steps[stepIndex]}</p>`;
-
-    const loadingInterval = setInterval(() => {
-      stepIndex++;
-      if (stepIndex < steps.length) {
-        responseDiv.innerHTML = `<p>${steps[stepIndex]}</p>`;
-      }
-    }, 2500);
-
-    try {
-      const response = await fetch('/ask', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt }),
-      });
-
-      const data = await response.json();
-      clearInterval(loadingInterval);
-
-      responseDiv.innerHTML = `
-        <p><i>${verseText}</i></p>
-        <p><strong>Odpowiedź:</strong></p>
-        <div>${marked.parse(data.answer)}</div>
-      `;
-    } catch (error) {
-      clearInterval(loadingInterval);
-      responseDiv.innerHTML = 'Wystąpił błąd. Ponów próbę.';
-    }
-  });
-</script>
-
+  </script>
   <script src="/static/script.js"></script>
 </body>
 </html>
