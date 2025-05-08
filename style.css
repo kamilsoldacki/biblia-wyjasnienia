@@ -14,6 +14,13 @@ body {
   overflow-x: hidden;
 }
 
+html, body {
+  max-width: 100%;
+  -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;
+  overflow-x: hidden;
+}
+
 .wrapper {
   display: flex;
   border-left: 1px solid black;
@@ -111,19 +118,6 @@ button:hover {
   border-radius: 6px;
 }
 
-@media (max-width: 600px) {
-  .verse-labels,
-  .verse-inputs {
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-
-  .verse-labels label,
-  .verse-inputs input {
-    width: 100%;
-  }
-}
-
 form > * {
   margin-top: 1.6rem;
 }
@@ -149,29 +143,29 @@ form > * {
   display: block;
 }
 
+/* Mobile-specific adjustments */
 @media (max-width: 600px) {
   body {
     font-size: 94%;
   }
-  input, select, textarea {
+
+  input,
+  select,
+  textarea,
+  button {
     font-size: 1em !important;
+    -webkit-appearance: none;
+    appearance: none;
   }
-}
 
-html, body {
-  overflow-x: hidden;
-}
+  .verse-labels,
+  .verse-inputs {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
 
-/* Blokada przewijania poziomego i zoomu formularzy */
-html, body {
-  overflow-x: hidden;
-  max-width: 100%;
-  -webkit-text-size-adjust: 100%;
-  touch-action: manipulation;
-}
-
-input, textarea, select, button {
-  font-size: 16px !important;
-  -webkit-appearance: none;
-  appearance: none;
+  .verse-labels label,
+  .verse-inputs input {
+    width: 100%;
+  }
 }
