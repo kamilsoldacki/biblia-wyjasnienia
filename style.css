@@ -157,3 +157,7 @@ form > * {
     font-size: 1em !important;
   }
 }
+
+html, body {
+  overflow-x: hidden;
+}
