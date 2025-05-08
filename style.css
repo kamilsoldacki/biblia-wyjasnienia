@@ -148,3 +148,11 @@ form > * {
   font-weight: 500;
   display: block;
 }
+
+@media (max-width: 600px) {
+  input,
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
