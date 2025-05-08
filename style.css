@@ -81,8 +81,8 @@ button:hover {
   margin-top: 2rem;
   line-height: 1.7;
   text-align: justify;
-  max-width: 680px;
   color: #222;
+  width: 100%;
 }
 
 .verse-group {
