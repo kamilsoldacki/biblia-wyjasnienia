@@ -161,3 +161,17 @@ form > * {
 html, body {
   overflow-x: hidden;
 }
+
+/* Blokada przewijania poziomego i zoomu formularzy */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+  -webkit-text-size-adjust: 100%;
+  touch-action: manipulation;
+}
+
+input, textarea, select, button {
+  font-size: 16px !important;
+  -webkit-appearance: none;
+  appearance: none;
+}
