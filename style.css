@@ -4,30 +4,34 @@ body {
   font-family: 'Inter', sans-serif;
   font-size: 85%;
   background-color: #ffffff;
-  color: #222;
   margin: 0;
   padding: 0;
-  display: flex;
-  flex-direction: column;
+  color: #222;
   min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  overflow-x: hidden;
+  overscroll-behavior-x: none;
   -webkit-text-size-adjust: 100%;
 }
 
 .wrapper {
-  flex: 1;
   display: flex;
-  justify-content: center;
-  padding: 2rem 1rem;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+  max-width: 860px;
+  width: 100%;
+  padding-top: 0;
+  padding-right: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 2rem;
   box-sizing: border-box;
+  z-index: 1;
 }
 
 .container {
   width: 100%;
-  max-width: 860px;
-  border-left: 1px solid black;
-  border-right: 1px solid black;
-  padding: 0 2rem 2rem;
-  box-sizing: border-box;
 }
 
 h1 {
@@ -153,12 +157,4 @@ form > * {
   button {
     font-size: 16px !important;
   }
-}
-
-.footer {
-  text-align: center;
-  font-size: 0.75rem;
-  color: #999;
-  padding: 1rem 0;
-  border-top: 1px solid #e0e0e0;
 }
