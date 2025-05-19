@@ -158,3 +158,22 @@ form > * {
     font-size: 16px !important;
   }
 }
+
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.wrapper {
+  flex: 1;
+}
+
+.footer {
+  text-align: center;
+  font-size: 0.9rem;
+  color: #666;
+  padding: 1rem;
+  border-top: 1px solid #ccc;
+  margin-top: 2rem;
+}
