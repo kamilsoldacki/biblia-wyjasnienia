@@ -16,6 +16,7 @@ body {
 
 .wrapper {
   display: flex;
+  flex: 1;
   border-left: 0px solid black;
   border-right: 0px solid black;
   max-width: 860px;
@@ -203,14 +204,11 @@ form > * {
 }
 
 .site-footer {
-  position: fixed;
-  bottom: 0;
-  right: 0;
-  padding: 0.5rem 1rem;
   font-size: 0.75rem;
   color: #888;
-  background-color: transparent;
-  z-index: 100;
+  padding: 0.5rem 1rem;
+  text-align: right;
+  margin-top: 4rem;
 }
 
 .site-footer .footer-content {
@@ -238,4 +236,14 @@ form > * {
 #branding:hover {
   text-decoration: none;
   color: inherit;
+}
+
+html, body {
+  height: 100%;
+}
+
+.page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
