@@ -199,6 +199,31 @@ form > * {
 .page {
   max-width: 860px;
   margin: 0 auto;
-  padding: 0 2rem;
   box-sizing: border-box;
+}
+
+.site-footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  color: #888;
+  background-color: transparent;
+  z-index: 100;
+}
+
+.site-footer .footer-content {
+  text-align: right;
+}
+
+.site-footer a {
+  color: #aaa;
+  text-decoration: none;
+  margin: 0 0.3rem;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+  color: #555;
 }
