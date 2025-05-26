@@ -16,15 +16,11 @@ body {
 
 .wrapper {
   display: flex;
-  flex: 1;
   border-left: 0px solid black;
   border-right: 0px solid black;
   max-width: 860px;
   width: 100%;
-  padding-top: 0;
-  padding-right: 2rem;
-  padding-bottom: 2rem;
-  padding-left: 2rem;
+  padding: 0 2rem 2rem 2rem;
   box-sizing: border-box;
   z-index: 1;
   margin-top: 2rem;
@@ -83,6 +79,7 @@ button:hover {
   text-align: justify;
   color: #222;
   width: 100%;
+  padding-bottom: 4rem; /* <- WAŻNE: miejsce na stopkę */
 }
 
 .verse-group {
@@ -198,17 +195,23 @@ form > * {
 }
 
 .page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   max-width: 860px;
   margin: 0 auto;
   box-sizing: border-box;
 }
 
 .site-footer {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  padding: 0.5rem 1rem;
   font-size: 0.75rem;
   color: #888;
-  padding: 0.5rem 1rem;
-  text-align: right;
-  margin-top: 4rem;
+  background-color: white;
+  z-index: 10;
 }
 
 .site-footer .footer-content {
@@ -238,12 +241,6 @@ form > * {
   color: inherit;
 }
 
-html, body {
-  height: 100%;
-}
-
-.page {
+body {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
 }
