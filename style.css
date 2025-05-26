@@ -28,6 +28,7 @@ body {
   padding-left: 2rem;
   box-sizing: border-box;
   z-index: 1;
+  margin-top: 2rem;
 }
 
 .container {
@@ -159,37 +160,14 @@ form > * {
   }
 }
 
-.language-switcher {
-  position: absolute;
-  top: 1rem;
-  right: 1rem;
-  z-index: 1000;
-  display: flex;
-  gap: 0.4rem;
-}
-
-.language-switcher img {
-  width: 24px;
-  height: 18px;
-  object-fit: cover;
-  border: 1px solid #ccc;
-  border-radius: 2px;
-  cursor: pointer;
-  opacity: 0.7;
-  transition: transform 0.2s, opacity 0.2s;
-}
-
-.language-switcher img:hover {
-  transform: scale(1.1);
-  opacity: 1;
-}
-
 .top-bar {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 2rem;
   position: relative;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .site-title {
@@ -217,10 +195,4 @@ form > * {
 .language-switcher img:hover {
   transform: scale(1.1);
   opacity: 1;
-}
-
-/* Obniżenie formularza */
-.wrapper {
-  margin-top: 2rem;
-  padding: 0 2rem;
 }
