@@ -8,8 +8,6 @@ body {
   padding: 0;
   color: #222;
   min-height: 100vh;
-  display: flex;
-  justify-content: center;
   position: relative;
   overflow-x: hidden;
   overscroll-behavior-x: none;
@@ -195,4 +193,11 @@ form > * {
 .language-switcher img:hover {
   transform: scale(1.1);
   opacity: 1;
+}
+
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  box-sizing: border-box;
 }
