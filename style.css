@@ -163,9 +163,10 @@ form > * {
   justify-content: space-between;
   align-items: center;
   padding: 1.5rem 2rem;
-  position: relative;
   width: 100%;
+  position: relative;
   box-sizing: border-box;
+  background-color: white;
 }
 
 .site-title {
