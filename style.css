@@ -227,3 +227,15 @@ form > * {
   text-decoration: underline;
   color: #555;
 }
+
+#branding {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: inherit;
+}
+
+#branding:hover {
+  text-decoration: none;
+  color: inherit;
+}
