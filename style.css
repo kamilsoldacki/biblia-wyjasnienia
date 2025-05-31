@@ -195,7 +195,7 @@ form > * {
 }
 
 .page {
-  min-height: 100vh;
+  min-height: 80vh;
   display: flex;
   flex-direction: column;
   justify-content: center; /* <-- to centrowanie w pionie przy małej ilości treści */
