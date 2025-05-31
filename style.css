@@ -15,14 +15,9 @@ body {
 }
 
 .wrapper {
-  display: flex;
-  border-left: 0px solid black;
-  border-right: 0px solid black;
-  max-width: 860px;
   width: 100%;
   padding: 0 2rem 2rem 2rem;
   box-sizing: border-box;
-  z-index: 1;
 }
 
 .container {
@@ -197,9 +192,11 @@ form > * {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  max-width: 860px;
+  justify-content: center; /* <-- to centrowanie w pionie przy małej ilości treści */
   margin: 0 auto;
   box-sizing: border-box;
+  max-width: 860px;
+  align-items: stretch; /* Zapobiega wymuszaniu pionowego centrowania, jeśli jest dużo treści */
 }
 
 .site-footer {
@@ -238,8 +235,4 @@ form > * {
 #branding:hover {
   text-decoration: none;
   color: inherit;
-}
-
-body {
-  min-height: 100vh;
 }
