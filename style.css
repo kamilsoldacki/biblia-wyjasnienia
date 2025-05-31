@@ -18,6 +18,13 @@ body {
   width: 100%;
   padding: 0 2rem 2rem 2rem;
   box-sizing: border-box;
+  padding-top: clamp(0px, 30vh, 200px); /* <-- dodajemy odstęp 30% od góry przy małej zawartości */
+}
+
+@media (max-height: 500px) {
+  .wrapper {
+    padding-top: 0;
+  }
 }
 
 .container {
